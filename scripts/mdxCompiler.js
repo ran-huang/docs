@@ -20,6 +20,8 @@ const promises = inputPaths.map(async (inputPath) => {
 
 Promise.all(promises).then(() => {
   if (errors.length > 0) {
+    // write all errors details in a file errors.txt
+    fs.writeFile("errors.txt", errors.join("\n"));
     throw new Error(errors.join("\n"));
   }
 });

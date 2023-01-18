@@ -11,17 +11,22 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-
-    - name: Validate MDX
+    - name: Get changed files
       run: |
-        npm install @mdx-js/mdx
-        node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r upstream/${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
+        git diff-tree --name-only --no-commit-id -r HEAD...HEAD~1 -- '*.md' > changed-files.txt
+
+    - name: Run mdx.js script
       env:
         FORCE_EXIT: 1
+      run: |
+        node ./script/mdxCompiler.js $(cat changed-files.txt)
+      if: steps.get_changed_files.outputs.status == 0
 
-    - name: exit if error
-      run: exit $?
+    - name: Handle Errors
+      run: |
+        if [ $FORCE_EXIT -ne 0 ]; then
+            echo "There were compilation errors"
+            cat errors.txt
+            exit 1
+        else
+            echo "All files were successfully compiled"
