@@ -11,7 +11,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
     - name: Get changed files
+      id: get_changed_files
       run: |
         git diff --name-only ${{github.base_ref}}...HEAD -- '*.md' > changed-files.txt
 
