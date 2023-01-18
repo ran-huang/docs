@@ -19,7 +19,7 @@ jobs:
     - name: Validate MDX
       run: |
         npm install @mdx-js/mdx
-        node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r ${{ github.base_ref }}..${{ github.head_ref }} -- '*.md' ':(exclude).github/*')
+        node --no-warning ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r ${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
       env:
         FORCE_EXIT: 1
 
