@@ -16,17 +16,11 @@ jobs:
       with:
         node-version: 16
 
-    - name: 'Get a list of changed markdown files to process'
-      id: changed-files
-      run: |
-        CHANGED_FILES=$(git diff-tree --name-only --diff-filter 'AM' -r HEAD^1 HEAD -- "*.md" | sed -z "s/\n$//;s/\n/' '/g")
-        echo "::set-output name=all_changed_files::${CHANGED_FILES}"
-
     - name: Validate MDX
       if: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |
         npm install @mdx-js/mdx
-        node ./scripts/mdxCompiler.js '${{ steps.changed-files.outputs.all_changed_files }}'
+        node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r upstream/${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
       env:
         FORCE_EXIT: 1
 
