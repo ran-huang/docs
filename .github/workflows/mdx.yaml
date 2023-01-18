@@ -1,7 +1,6 @@
 name: Validate MDX
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -20,7 +19,7 @@ jobs:
     - name: Validate MDX
       run: |
         npm install @mdx-js/mdx
-        node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r upstream/${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
+        node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r ${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
       env:
         FORCE_EXIT: 1
 
