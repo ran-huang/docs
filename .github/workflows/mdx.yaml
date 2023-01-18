@@ -13,7 +13,7 @@ jobs:
 
     - name: Get changed files
       run: |
-        git diff-tree --name-only --no-commit-id -r HEAD...HEAD~1 -- '*.md' > changed-files.txt
+        git diff --name-only ${{github.base_ref}}...HEAD -- '*.md' > changed-files.txt
 
     - name: Run mdx.js script
       env:
