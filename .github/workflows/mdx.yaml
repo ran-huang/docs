@@ -2,6 +2,7 @@ name: Validate MDX
 
 on:
   push:
+  pull_request:
 
 jobs:
   validate:
