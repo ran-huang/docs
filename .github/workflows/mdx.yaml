@@ -17,7 +17,6 @@ jobs:
         node-version: 16
 
     - name: Validate MDX
-      if: ${{ steps.changed-files.outputs.all_changed_files }}
       run: |
         npm install @mdx-js/mdx
         node ./scripts/mdxCompiler.js $(git diff-tree --name-only --no-commit-id -r upstream/${{ github.base_ref }}..HEAD -- '*.md' ':(exclude).github/*')
