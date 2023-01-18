@@ -150,6 +150,13 @@ This section gives the alert rules for the TiDB component.
     * Check whether the TiDB Binlog service is normal.
 
 #### `TiDB_tikvclient_backoff_seconds_count`
+    
+<table>
+    <tr>
+        <th>text</th>
+    </tr>
+    <tr>
+</table
 
 * Alert rule:
 
